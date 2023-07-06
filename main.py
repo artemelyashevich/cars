@@ -12,8 +12,8 @@ app.config[
 from db.connection import db
 db.init_app(app)
 from models import User, Car
-app.register_blueprint(user_route)
-app.register_blueprint(car_route)
+app.register_blueprint(user_route, url_prefix='/api/v1/user')
+app.register_blueprint(car_route, url_prefix='/api/v1/car')
 
 if __name__ == '__main__':
     with app.app_context():

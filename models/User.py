@@ -1,13 +1,26 @@
-class User:
+from datetime import datetime
+from db.connection import db
 
-    def __init__(self, name, email, balance, address, age, photo):
+
+class User(db.Model):
+    __tablename__ = 'user'
+    __table_args__ = {'extend_existing': True}
+    id: int = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    name: str = db.Column(db.VARCHAR(255), nullable=False)
+    email: str = db.Column(db.VARCHAR(255), nullable=False)
+    balance: float = db.Column(db.Float)
+    age: int = db.Column(db.Integer)
+    photo: str = db.Column(db.VARCHAR(255))
+    is_admin: bool = db.Column(db.Boolean, default=False)
+    is_employee: bool = db.Column(db.Boolean, default=False)
+    create_date: datetime = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, name, email, balance, age, photo):
         self.name = name
         self.email = email
         self.balance = balance
-        self.address = address
         self.age = age
         self.photo = photo
-        self.is_admin = False
 
     def get_name(self) -> str:
         return self.name
@@ -37,4 +50,6 @@ class User:
                f"Address: {self.address}\n" \
                f"Age: {self.age}\n" \
                f"Photo: {self.photo}\n" \
-               f"is_admin: {self.is_admin}\n"
+               f"is_admin: {self.is_admin}\n" \
+               f"Create_date: {self.create_date}\n"
+

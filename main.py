@@ -1,17 +1,20 @@
-import os
 from dotenv import load_dotenv
 from flask import Flask
-from routes.carPoutes import car_route
+from db.config import ApplicationConfig
+from routes.carRoutes import car_route
 from routes.userRoutes import user_route
 
 app = Flask(__name__)
 
 load_dotenv()
-app.config[
-    "SQLALCHEMY_DATABASE_URI"] = f'mysql+pymysql://root:{os.getenv("PASSWORD")}@{os.getenv("HOST")}/{os.getenv("NAME")}'
+app.config.from_object(ApplicationConfig)
+
 from db.connection import db
+
 db.init_app(app)
-from models import User, Car
+from models import User
+from models import Car
+
 app.register_blueprint(user_route, url_prefix='/api/v1/user')
 app.register_blueprint(car_route, url_prefix='/api/v1/car')
 

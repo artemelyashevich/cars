@@ -5,15 +5,13 @@ class Validate:
 
     @staticmethod
     def check_data(data: dict) -> bool:
-        if data.get('name') is None or data.get('email') is None:
+        if data.get('name') is None or data.get('email') is None or data.get('password') is None:
             return False
         return True
 
     @staticmethod
     def check_user(user: User | None) -> bool:
-        if user is None:
-            return False
-        return True
+        return user is not None
 
     @staticmethod
     def update_data(data: dict, user: User) -> dict:

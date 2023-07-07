@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from werkzeug.security import generate_password_hash
+
 from db.connection import db
 
 
@@ -7,6 +10,7 @@ class User(db.Model):
     __table_args__ = {'extend_existing': True}
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name: str = db.Column(db.VARCHAR(255), nullable=False)
+    password: str = db.Column(db.VARCHAR(255), nullable=False)
     email: str = db.Column(db.VARCHAR(255), nullable=False)
     balance: float = db.Column(db.Float, default=0)
     age: int = db.Column(db.Integer, default=0)
@@ -16,9 +20,10 @@ class User(db.Model):
     last_login: datetime = db.Column(db.DateTime, default=datetime.utcnow)
     create_date: datetime = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self, name: str, email: str):
+    def __init__(self, name: str, email: str, password: str):
         self.name = name
         self.email = email
+        self.password = generate_password_hash(password)
 
     def get_id(self) -> int:
         return self.id
@@ -49,6 +54,9 @@ class User(db.Model):
 
     def get_login_date(self) -> datetime:
         return self.last_login
+
+    def set_last_login(self, v: datetime):
+        self.last_login = v
 
     def __str__(self):
         return f"Name: {self.name}\n" \

@@ -25,7 +25,7 @@ class Car(db.Model):
         self.employee_id = employee_id
 
     def get_id(self) -> int:
-        return id
+        return self.id
 
     def get_title(self) -> str:
         return self.title
